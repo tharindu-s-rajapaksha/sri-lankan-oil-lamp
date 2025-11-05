@@ -10,8 +10,24 @@ const DEV_MODE = false
 function App() {
   const [lampCount, setLampCount] = useState(null)
   const [lamps, setLamps] = useState([])
-  const [soundEnabled, setSoundEnabled] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
   const [lampSize, setLampSize] = useState(getResponsiveLampSize())
+  const [backgroundMusic, setBackgroundMusic] = useState(null)
+
+  // Initialize background music
+  useEffect(() => {
+    const music = new Audio('/music.mp3')
+    music.loop = true
+    music.volume = 0.3
+    setBackgroundMusic(music)
+    
+    return () => {
+      if (music) {
+        music.pause()
+        music.currentTime = 0
+      }
+    }
+  }, [])
 
   // Handle window resize for responsive lamp sizes
   useEffect(() => {
@@ -22,6 +38,17 @@ function App() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // Control background music based on sound enabled state
+  useEffect(() => {
+    if (backgroundMusic) {
+      if (soundEnabled && lampCount !== null) {
+        backgroundMusic.play().catch(() => {})
+      } else {
+        backgroundMusic.pause()
+      }
+    }
+  }, [soundEnabled, backgroundMusic, lampCount])
 
   const handleStartCeremony = (count) => {
     const newLamps = Array.from({ length: count }, (_, i) => {
@@ -64,7 +91,7 @@ function App() {
     
     // Play lighting sound if enabled
     if (soundEnabled) {
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6f')
+      const audio = new Audio('/flame.mp3')
       audio.volume = 0.3
       audio.play().catch(() => {})
     }
@@ -78,11 +105,15 @@ function App() {
   const litCount = lamps.filter(lamp => lamp.isLit).length
 
   return (
-    <div className="app">
+    <div className="app" data-lit-count={litCount}>
       {/* Decorative Background */}
       <div className="background">
         <div className="bodhi-tree"></div>
         <div className="stars"></div>
+        {/* Dynamic background glow based on lit lamps */}
+        <div className="ambient-glow" style={{
+          opacity: lampCount !== null ? litCount / lampCount : 0
+        }}></div>
       </div>
 
       {/* Position Helper - Only in Dev Mode */}
@@ -149,12 +180,13 @@ function App() {
             <button className="reset-button" onClick={handleReset}>
               ←
             </button>
-            <div className="lamp-counter">
+            {/* Lamp Counter - Commented out as requested */}
+            {/* <div className="lamp-counter">
               <span className="lit-count">{litCount}</span>
               <span className="separator">/</span>
               <span className="total-count">{lampCount}</span>
               <span className="label">lamps lit</span>
-            </div>
+            </div> */}
           </div>
 
           {/* Lamp Container - matches tree dimensions */}

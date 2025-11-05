@@ -7,14 +7,6 @@ const OilLamp = ({ isLit = false, onClick, style, size = 100 }) => {
       onClick={onClick}
       style={style}
     >
-      {/* Glow effect when lit */}
-      {isLit && (
-        <>
-          <div className="glow-outer"></div>
-          <div className="glow-inner"></div>
-        </>
-      )}
-
       {/* Flame */}
       {isLit && (
         <div className="flame-container">
