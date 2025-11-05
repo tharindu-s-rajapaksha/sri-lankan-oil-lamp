@@ -1,0 +1,301 @@
+.oil-lamp-container {
+  position: relative;
+  cursor: pointer;
+  transition: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* Lamp image styles */
+.lamp-image {
+  display: block;
+  transition: filter 0.3s ease, transform 0.3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+  position: relative;
+  z-index: 3;
+}
+
+/* Flame Container - Centered on lamp */
+.flame-container {
+  position: absolute;
+  bottom: 70%;
+  left: 50%;
+  z-index: 10;
+  animation: flame-ignite 0.8s ease-out;
+}
+
+/* Flame ignition animation */
+@keyframes flame-ignite {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.3) translateY(20px);
+  }
+  40% {
+    opacity: 0.5;
+    transform: translateX(-15%) scale(0.7) translateY(5px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: translateX(0%) scale(1.1) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%) scale(1) translateY(0);
+  }
+}
+
+/* Flame Animation */
+.flame {
+  position: relative;
+  width: 40px;
+  height: 55px;
+  animation: flicker 2s infinite alternate;
+}
+
+.flame-outer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 55px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 100, 0, 0.9) 0%,
+    rgba(255, 150, 0, 0.8) 40%,
+    rgba(255, 200, 50, 0.6) 70%,
+    rgba(255, 220, 100, 0.3) 90%,
+    transparent 100%
+  );
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flame-dance 1.5s infinite ease-in-out;
+  filter: blur(2px);
+}
+
+.flame-core {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 38px;
+  background: linear-gradient(
+    to top,
+    rgba(255, 200, 0, 1) 0%,
+    rgba(255, 230, 100, 0.9) 50%,
+    rgba(255, 255, 200, 0.5) 100%
+  );
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flame-core-dance 1.2s infinite ease-in-out;
+  filter: blur(1px);
+}
+
+/* Flame sparkles */
+.flame-sparkles {
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+}
+
+.sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 200, 0.9);
+  border-radius: 50%;
+  animation: sparkle-rise 2s infinite;
+  filter: blur(1px);
+}
+
+.sparkle-1 {
+  left: 5px;
+  animation-delay: 0s;
+}
+
+.sparkle-2 {
+  left: 18px;
+  animation-delay: 0.7s;
+}
+
+.sparkle-3 {
+  left: 30px;
+  animation-delay: 1.3s;
+}
+
+/* Glow Effects - Behind and around the lamp */
+.glow-outer {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 180, 0, 0.4) 0%,
+    rgba(255, 120, 0, 0.2) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: glow-pulse 2s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glow-inner {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 50, 0.5) 0%,
+    rgba(255, 150, 0, 0.3) 20%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: glow-pulse-inner 1.5s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Oil shimmer */
+.oil-shimmer {
+  animation: shimmer 3s infinite ease-in-out;
+}
+
+/* Click hint */
+.click-hint {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  animation: bounce-hint 2s infinite ease-in-out;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Animations */
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  25% {
+    opacity: 0.95;
+    transform: translateX(-50%) scale(0.98);
+  }
+  50% {
+    opacity: 0.98;
+    transform: translateX(-50%) scale(1.02);
+  }
+  75% {
+    opacity: 0.96;
+    transform: translateX(-50%) scale(0.99);
+  }
+}
+
+@keyframes flame-dance {
+  0%, 100% {
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+  }
+  25% {
+    transform: translateX(-48%) scaleY(1.05) scaleX(0.95);
+  }
+  50% {
+    transform: translateX(-52%) scaleY(0.98) scaleX(1.03);
+  }
+  75% {
+    transform: translateX(-50%) scaleY(1.02) scaleX(0.98);
+  }
+}
+
+@keyframes flame-core-dance {
+  0%, 100% {
+    transform: translateX(-50%) scaleY(1);
+  }
+  33% {
+    transform: translateX(-50%) scaleY(1.08);
+  }
+  66% {
+    transform: translateX(-50%) scaleY(0.95);
+  }
+}
+
+@keyframes sparkle-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+@keyframes glow-pulse-inner {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1.15);
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes bounce-hint {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+/* Lamp body hover effect when not lit */
+.oil-lamp-container:not(.lit) .lamp-image {
+  filter: brightness(0.8) contrast(1.1);
+}
+
+.oil-lamp-container:not(.lit):hover .lamp-image {
+  filter: brightness(1) contrast(1.2);
+}
+
+/* Lit lamp body glow */
+.oil-lamp-container.lit .lamp-image {
+  filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 180, 0, 0.5));
+}
